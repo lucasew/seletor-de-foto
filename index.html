@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <title>Escolhedor de foto</title>
+    </head>
+    <script>
+    </script>
+    <body>
+        <script>
+
+window.addEventListener('drop', drop)
+window.addEventListener('dragover', allowDrop)
+
+let images = []
+let selected = undefined
+function updateImageContainer() {
+    console.log(selected)
+    const imageContainer = document.getElementById("list")
+    swapElement = document.createElement("div")
+    images.forEach((img, i) => {
+        imgElem = document.createElement("img")
+        imgElem.src = img
+        imgElem.alt = "imagem selecionada"
+        imgElem.className = "foto"
+        if (selected === i) {
+            imgElem.className += " selected"
+        }
+        swapElement.appendChild(imgElem)
+    })
+    imageContainer.innerHTML = swapElement.innerHTML
+}
+function randomizeImageList() {
+    if (images.length === 0) {
+        alert("Erro: nenhuma imagem para sortear")
+        return
+    }
+    if (images.length === 1) {
+        alert("Tá de brinqueixon uite mi né?")
+        return
+    }
+    fetch(`https://www.random.org/integers/?num=1&min=0&max=${images.length - 1}&col=1&base=10&format=plain&rnd=new`)
+        .then((result) => {
+            result.text().then((number) => {
+                const num = parseInt(number)
+                if (isNaN(num)) {
+                    alert(`O serviço random.org retornou um valor inválido: '${number}'`)
+                } else {
+                    mudarNumeroSorteado(num)
+                }
+            })
+        })
+        .catch(function (err) {
+            console.error(err)
+            alert(`O serviço random.org retornou um erro, ou só nunca nem viu: '${err.message || err}'`)
+            mudarNumeroSorteado(Math.floor(Math.random()*images.length))
+        })
+}
+function mudarNumeroSorteado(numero) {
+    selected = numero
+    updateImageContainer()
+    alert("Sorteado!")
+}
+function allowDrop(ev) {
+    ev.preventDefault()
+}
+function ingestFiles(files) {
+    let newItems = []
+    const promises = []
+    for (let i = 0; i < files.length; i++) {
+        if (!files[i]) return
+        newItems.push(window.URL.createObjectURL(files[i]))
+    }
+    Promise.all(promises).then((items) => {
+        images = [...images, ...newItems]
+    }).finally(updateImageContainer)
+    console.log(images)
+}
+function drop(ev) {
+    ev.preventDefault()
+    console.log(ev)
+    ingestFiles(ev.dataTransfer.files)
+}
+window.addEventListener('load', () => {
+    document.getElementById("list").addEventListener("click", (e) => {
+        e.preventDefault()
+        document.getElementById("fileElem").click()
+    })
+})
+        </script>
+        <style>
+#titulo {
+    text-align: center;
+}
+
+.foto {
+    max-width: 45%;
+    padding: 10px;
+}
+
+.selected {
+    border: 3px solid black;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#intro-padrao {
+    min-height: 80vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#intro-padrao h1 {
+    width: 100vw;
+    box-sizing: border-box;
+    text-align: center;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+        </style>
+        <body>
+            <input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="ingestFiles(this.files)">
+            <h1 id="titulo" onclick="randomizeImageList()">Seletor de foto (clica em mim para sortear)</h1>
+            <div id="list" class="imagens">
+                <div id="intro-padrao">
+                    <h1>Clique em mim para selecionar alguma foto ou arraste fotos para mim</h1>
+                </div>
+            </div>
+        </body>
+</html>
