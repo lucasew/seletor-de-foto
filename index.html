@@ -1,9 +1,8 @@
 <html>
     <head>
         <title>Escolhedor de foto</title>
+        <meta charset="UTF-8">
     </head>
-    <script>
-    </script>
     <body>
         <script>
 
@@ -80,10 +79,12 @@ function drop(ev) {
     ingestFiles(ev.dataTransfer.files)
 }
 window.addEventListener('load', () => {
-    document.getElementById("list").addEventListener("click", (e) => {
+    const list = document.getElementById("list")
+    list.addEventListener("click", (e) => {
         e.preventDefault()
-        document.getElementById("fileElem").click()
+        const elem = document.getElementById("fileElem").click()
     })
+    console.log("loaded")
 })
         </script>
         <style>
@@ -121,13 +122,16 @@ body {
     margin-right: 10vw;
 }
 
+#intro, #titulo {
+    cursor: pointer;
+}
+
         </style>
-        <body>
             <input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="ingestFiles(this.files)">
             <h1 id="titulo" onclick="randomizeImageList()">Seletor de foto (clica em mim para sortear)</h1>
             <div id="list" class="imagens">
                 <div id="intro-padrao">
-                    <h1>Clique em mim para selecionar alguma foto ou arraste fotos para mim</h1>
+                    <h1 id="intro">Clique em mim para selecionar alguma foto ou arraste fotos para mim</h1>
                 </div>
             </div>
         </body>
