@@ -1,0 +1,1 @@
+- 2026-02-20: [Medium] Avoid innerHTML when DOM manipulation is possible to prevent XSS risks.

@@ -15,18 +15,18 @@ let selected = undefined
 function updateImageContainer() {
     console.log(selected)
     const imageContainer = document.getElementById("list")
-    swapElement = document.createElement("div")
+    const fragment = document.createDocumentFragment()
     images.forEach((img, i) => {
-        imgElem = document.createElement("img")
+        const imgElem = document.createElement("img")
         imgElem.src = img
         imgElem.alt = "imagem selecionada"
         imgElem.className = "foto"
         if (selected === i) {
             imgElem.className += " selected"
         }
-        swapElement.appendChild(imgElem)
+        fragment.appendChild(imgElem)
     })
-    imageContainer.innerHTML = swapElement.innerHTML
+    imageContainer.replaceChildren(fragment)
 }
 function randomizeImageList() {
     if (images.length === 0) {
