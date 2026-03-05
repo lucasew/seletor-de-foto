@@ -1,0 +1,37 @@
+#titulo {
+    text-align: center;
+}
+
+.foto {
+    max-width: 45%;
+    padding: 10px;
+}
+
+.selected {
+    border: 3px solid black;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#intro-padrao {
+    min-height: 80vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#intro-padrao h1 {
+    width: 100vw;
+    box-sizing: border-box;
+    text-align: center;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+#intro, #titulo {
+    cursor: pointer;
+}

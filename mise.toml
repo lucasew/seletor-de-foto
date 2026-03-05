@@ -1,0 +1,6 @@
+[tools]
+node = "20.11.1"
+
+[tasks]
+ci = "npx standard"
+test = "npx standard"
