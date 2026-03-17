@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Te ajuda a escolher qual foto postar/mandar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'Tests disabled for HTML project'",
+    "ci": "echo 'Lint disabled for HTML project'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasew/seletor-de-foto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lucasew/seletor-de-foto/issues"
+  },
+  "homepage": "https://github.com/lucasew/seletor-de-foto#readme",
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}
