@@ -1,0 +1,40 @@
+[tools]
+"github:lucasew/workspaced" = "0.2.3"
+
+[tasks]
+lint = "workspaced codebase lint"
+fmt = "workspaced codebase format"
+
+[tasks.test]
+depends = ["test:*"]
+
+[tasks.codegen]
+depends = ["codegen:*"]
+
+[tasks.install]
+depends = ["install:*"]
+
+[tasks.ci]
+depends = ["lint", "test"]
+
+[tasks."test:dummy"]
+run = "echo 'No tests yet'"
+
+[tasks."install:smart"]
+run = '''
+#!/usr/bin/env bash
+if [ -f "package-lock.json" ]; then
+  npm ci
+elif [ -f "yarn.lock" ]; then
+  yarn install --frozen-lockfile
+elif [ -f "pnpm-lock.yaml" ]; then
+  pnpm install --frozen-lockfile
+elif [ -f "bun.lockb" ]; then
+  bun install --frozen-lockfile
+else
+  echo "No recognized package manager lockfile found. Skipping install."
+fi
+'''
+
+[tasks."codegen:dummy"]
+run = "echo 'No codegen steps yet'"
