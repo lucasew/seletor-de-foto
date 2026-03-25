@@ -1,0 +1,23 @@
+[tools]
+node = "20.12.2"
+
+[tasks."install:deps"]
+run = "echo 'No deps to install'"
+
+[tasks.install]
+depends = ["install:*"]
+
+[tasks."test:unit"]
+run = "echo 'No tests yet'"
+
+[tasks.test]
+depends = ["test:*"]
+
+[tasks."lint:all"]
+run = "echo 'No lint yet'"
+
+[tasks.lint]
+depends = ["lint:*"]
+
+[tasks.ci]
+depends = ["lint", "test"]

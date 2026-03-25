@@ -3,6 +3,8 @@
         <title>Escolhedor de foto</title>
         <meta charset="UTF-8">
         <script defer src="https://analytics.app.lew.tec.br/script.js" data-website-id="1bba095f-4635-4858-b8a9-6bb017a021e0"></script>
+        <script src="src/error-reporter.js"></script>
+        <script src="src/store.js"></script>
     </head>
     <body>
         <script>
@@ -10,9 +12,7 @@
 window.addEventListener('drop', drop)
 window.addEventListener('dragover', allowDrop)
 
-let images = []
-let selected = undefined
-function updateImageContainer() {
+function updateImageContainer({ images, selected }) {
     console.log(selected)
     const imageContainer = document.getElementById("list")
     swapElement = document.createElement("div")
@@ -28,16 +28,20 @@ function updateImageContainer() {
     })
     imageContainer.innerHTML = swapElement.innerHTML
 }
+
+store.subscribe(updateImageContainer)
+
 function randomizeImageList() {
-    if (images.length === 0) {
+    const imagesCount = store.getImagesCount()
+    if (imagesCount === 0) {
         alert("Erro: nenhuma imagem para sortear")
         return
     }
-    if (images.length === 1) {
+    if (imagesCount === 1) {
         alert("Tá de brinqueixon uite mi né?")
         return
     }
-    fetch(`https://www.random.org/integers/?num=1&min=0&max=${images.length - 1}&col=1&base=10&format=plain&rnd=new`)
+    fetch(`https://www.random.org/integers/?num=1&min=0&max=${imagesCount - 1}&col=1&base=10&format=plain&rnd=new`)
         .then((result) => {
             result.text().then((number) => {
                 const num = parseInt(number)
@@ -49,14 +53,13 @@ function randomizeImageList() {
             })
         })
         .catch(function (err) {
-            console.error(err)
+            reportError(err, { action: "randomizeImageList" })
             alert(`O serviço random.org retornou um erro, ou só nunca nem viu: '${err.message || err}'`)
-            mudarNumeroSorteado(Math.floor(Math.random()*images.length))
+            mudarNumeroSorteado(Math.floor(Math.random()*imagesCount))
         })
 }
 function mudarNumeroSorteado(numero) {
-    selected = numero
-    updateImageContainer()
+    store.setSelected(numero)
     alert("Sorteado!")
 }
 function allowDrop(ev) {
@@ -70,9 +73,10 @@ function ingestFiles(files) {
         newItems.push(window.URL.createObjectURL(files[i]))
     }
     Promise.all(promises).then((items) => {
-        images = [...images, ...newItems]
-    }).finally(updateImageContainer)
-    console.log(images)
+        store.addImages(newItems)
+    }).finally(() => {
+        console.log(store.images)
+    })
 }
 function drop(ev) {
     ev.preventDefault()
