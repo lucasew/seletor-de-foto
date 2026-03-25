@@ -1,0 +1,1 @@
+- 2025-03-25: Always enforce formatting with standard linters across HTML, JS, and JSON files to maintain consistent project style.

@@ -1,4 +1,5 @@
 # seletor-de-foto ([demo](https://seletor-de-foto.vercel.app/))
+
 Te ajuda a escolher qual foto postar/mandar
 
 - Usa o random.org para maior precisão de aleatoriedade podendo usar o `Math.random` se não conseguir.
