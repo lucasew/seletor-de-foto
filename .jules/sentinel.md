@@ -1,0 +1,1 @@
+- 2024-05-24: [Medium] Ignored/swallowed errors masking bugs and vulnerabilities downstream.

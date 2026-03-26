@@ -3,6 +3,7 @@
         <title>Escolhedor de foto</title>
         <meta charset="UTF-8">
         <script defer src="https://analytics.app.lew.tec.br/script.js" data-website-id="1bba095f-4635-4858-b8a9-6bb017a021e0"></script>
+        <script src="src/error-reporter.js"></script>
     </head>
     <body>
         <script>
@@ -49,7 +50,7 @@ function randomizeImageList() {
             })
         })
         .catch(function (err) {
-            console.error(err)
+            reportError(err)
             alert(`O serviço random.org retornou um erro, ou só nunca nem viu: '${err.message || err}'`)
             mudarNumeroSorteado(Math.floor(Math.random()*images.length))
         })

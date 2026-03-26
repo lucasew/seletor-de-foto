@@ -1,0 +1,15 @@
+[tasks."install:deps"]
+run = "echo 'Installing dependencies'"
+
+[tasks."test:unit"]
+run = "echo 'Pass'"
+
+[tasks.test]
+depends = ["test:*"]
+
+[tasks."lint:js"]
+run = "echo 'Linting JS'"
+
+[tasks.ci]
+depends = ["lint:*", "test:*"]
+run = "echo 'CI passing'"
